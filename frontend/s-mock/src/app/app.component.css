@@ -1,0 +1,28 @@
+#action-bar {
+  align-items: center;
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+#app-content {
+  display: grid;
+  grid-template-rows: 60px auto;
+  width: 100%;
+  height: 100%;
+}
+
+#log-view {
+  height: 100%;
+}
+
+#navigator {
+  border-right: 1px solid black;
+  height: 100%;
+}
+
+#project-content {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
