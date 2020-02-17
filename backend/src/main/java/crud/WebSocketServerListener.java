@@ -45,7 +45,7 @@ public class WebSocketServerListener {
     private void onMessageReceived(Session session, String message) throws IOException, URISyntaxException {
         log.debug("The backend server received the message: " + message);
 
-        if (message.equals("READ PROJECT")) {
+        if (message.equals("READ_PROJECT")) {
             appController = new AppController();
 
             log.debug("Reading project...");
@@ -53,17 +53,39 @@ public class WebSocketServerListener {
 
             log.debug("The project content is: " + projectFileContent);
             log.debug("Sending the project content to the frontend...");
-            session.getRemote().sendString(projectFileContent);
+
+            Message responseMessage = new Message("READ_PROJECT_RESPONSE", projectFileContent);
+            session.getRemote().sendString(responseMessage.toString());
 
             log.debug("Project content successfully sent to the frontend!");
-        } else if (message.startsWith("START MOCK")) {
-            String projectJson = message.substring(8);
-            log.info(projectJson);
+        } else if (message.startsWith("START_MOCK")) {
+            String projectJson = message.substring(11);
+            log.debug("Received instructions to start the mock service...");
+            log.debug("The project content to run is:");
+            log.debug(projectJson);
 
             if (appController == null) {
                 appController = new AppController();
             }
-//            appController.executeProject(projectJson, new WebSocketExecutionListener(session.getRemote()));
+            boolean mockStarted = appController.startMock(projectJson);
+            Message responseMessage;
+            if (mockStarted) {
+                responseMessage = new Message("START_MOCK_RESPONSE", "{\"success\":true}");
+            } else {
+                responseMessage = new Message("START_MOCK_RESPONSE", "{\"success\":false}");
+            }
+            session.getRemote().sendString(responseMessage.toString());
+        } else if (message.equals("STOP_MOCK")) {
+            log.debug("Received instructions to stop the mock service...");
+
+            boolean mockStarted = appController.stopMock();
+            Message responseMessage;
+            if (mockStarted) {
+                responseMessage = new Message("STOP_MOCK_RESPONSE", "{\"success\":true}");
+            } else {
+                responseMessage = new Message("STOP_MOCK_RESPONSE", "{\"success\":false}");
+            }
+            session.getRemote().sendString(responseMessage.toString());
         } else {
             log.error("Unknown command '" + message + "'. S-Mock will ignore it...");
         }

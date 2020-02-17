@@ -1,15 +1,93 @@
 <div id="app-content">
   <div id="action-bar">
     <label>Port:</label>
-    <input value="8080"/>
-    <button>Start mock</button>
+    <input id="port" [(ngModel)]="project.port"/>
+    <button id="start-mock" (click)="startMock()">
+      <img id="start-mock-icon" src="assets/start.svg" />
+      <p>Start mock</p>
+    </button>
+    <button id="stop-mock" class="disabled" (click)="stopMock()">
+      <img id="stop-mock-icon" src="assets/stop.svg" />
+      <p>Stop mock</p>
+    </button>
   </div>
   <div id="project-content">
     <div id="navigator">
+      <div id="empty-navigator" *ngIf="project?.actions.length == 0">
+        <div>
+          <p>No mock actions added.</p>
+          <button id="add-mock-action" (click)="openNewMockActionPopUp()">
+            <div>
+              <img id="add-mock-action-icon" src="assets/add.svg" />
+              <p>Add mock action</p>
+            </div>
+          </button>
+        </div>
+      </div>
 
+      <!-- Actions list -->
+      <div *ngIf="project?.actions.length > 0">
+        <div id="action" *ngFor="let action of project.actions">
+
+          <!-- On demand action -->
+          <div id="on-demand-action" *ngIf="action.type === 'ON_DEMAND'">
+            <div>
+              <input id="action-name"
+              class="borderless-input"
+              spellcheck="false"
+              [(ngModel)]="action.name"
+              placeholder="Action label...">
+            </div>
+            <div id="on-demand-message-wrapper">
+              <input id="on-demand-message"
+              class="borderless-input"
+              spellcheck="false"
+              placeholder="Your message here...">
+              <button id="on-demand-send-message" class="borderless-button">
+                <img id="start-mock-icon" src="assets/start.svg" />
+                <p>Send message</p>
+              </button>
+            </div>
+          </div>
+
+          <!-- Repetitive action -->
+          <div id="repetitive-action" *ngIf="action.type === 'REPETITIVE'">
+            Not implemented yet!
+          </div>
+        </div>
+        <button id="add-mock-action" (click)="openNewMockActionPopUp()">
+          <div>
+            <img id="add-mock-action-icon" src="assets/add.svg" />
+            <p>Add mock action</p>
+          </div>
+        </button>
+      </div>
     </div>
     <div id="log-view">
 
     </div>
+  </div>
+  <div id="bottom-bar">
+
+  </div>
+</div>
+
+<div id="new-mock-action-pop-up-wrapper"
+tabindex="new-assertion-pop-up"
+(mousedown)="onPopUpWrapperClick($event)">
+  <div id="select-mock-action-type-view">
+    <div id="new-mock-action-indication">
+			<img id="new-mock-action-icon" src="assets/help.svg">
+			Select action type:
+		</div>
+		<div id="mock-action-types-list">
+			<div id="actions-table">
+				<div id="action-type"
+				*ngFor="let enum of ActionType | keyvalue"
+				(click)="onNewMockActionTypeSelected(enum.key)">
+					{{ enum.value}}
+				</div>
+			</div>
+		</div>
   </div>
 </div>

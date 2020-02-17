@@ -54,4 +54,12 @@ public class AppController {
 //        ExecutionDelegator executionDelegator = new ExecutionDelegator(listener);
 //        executionDelegator.executeProject(project);
     }
+
+    public boolean startMock(String project) {
+        return true;
+    }
+
+    public boolean stopMock() {
+        return true;
+    }
 }
