@@ -1,6 +1,9 @@
 package execution;
 
+import crud.WebSocketServerListener;
 import definition.Project;
+import lombok.extern.log4j.Log4j;
+import spark.Service;
 import utils.FileReader;
 
 import java.io.BufferedReader;
@@ -9,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+@Log4j
 public class AppController {
     private Project project = null;
 
@@ -55,8 +59,21 @@ public class AppController {
 //        executionDelegator.executeProject(project);
     }
 
-    public boolean startMock(String project) {
-        return true;
+    public boolean startMock(Project project) {
+        Service mockServer = Service.ignite();
+        try {
+            mockServer.port(project.getPort());
+            mockServer.webSocketIdleTimeoutMillis(0);
+            mockServer.webSocket("/s-mock", WebSocketServerListener.class);
+            mockServer.init();
+            log.info("Started the websocket mock on port " + project.getPort() + ".");
+
+            return true;
+        } catch (Exception ex) {
+            log.error(ex);
+
+            return false;
+        }
     }
 
     public boolean stopMock() {

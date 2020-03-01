@@ -1,5 +1,6 @@
 package crud;
 
+import definition.Project;
 import lombok.extern.log4j.Log4j;
 import org.apache.logging.log4j.core.util.IOUtils;
 import org.eclipse.jetty.websocket.api.Session;
@@ -11,6 +12,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import execution.AppController;
+import utils.ProjectSerializer;
 
 @Log4j
 @WebSocket
@@ -43,7 +45,7 @@ public class WebSocketServerListener {
     }
 
     private void onMessageReceived(Session session, String message) throws IOException, URISyntaxException {
-        log.debug("The backend server received the message: " + message);
+        log.info("The backend server received the message: " + message);
 
         if (message.equals("READ_PROJECT")) {
             appController = new AppController();
@@ -60,14 +62,13 @@ public class WebSocketServerListener {
             log.debug("Project content successfully sent to the frontend!");
         } else if (message.startsWith("START_MOCK")) {
             String projectJson = message.substring(11);
-            log.debug("Received instructions to start the mock service...");
-            log.debug("The project content to run is:");
-            log.debug(projectJson);
+            log.info("Received instructions to start a mock service...");
 
             if (appController == null) {
                 appController = new AppController();
             }
-            boolean mockStarted = appController.startMock(projectJson);
+            Project project = ProjectSerializer.convertStringToProject(projectJson);
+            boolean mockStarted = appController.startMock(project);
             Message responseMessage;
             if (mockStarted) {
                 responseMessage = new Message("START_MOCK_RESPONSE", "{\"success\":true}");

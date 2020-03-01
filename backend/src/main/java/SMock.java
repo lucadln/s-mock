@@ -1,19 +1,18 @@
 import crud.WebSocketServerListener;
 import lombok.extern.log4j.Log4j;
-
-import static spark.Spark.*;
-import static spark.Spark.init;
+import spark.Service;
 
 @Log4j
 public class SMock {
     public static void main(String[] args) {
 
         // Start the WebSocket server that communicates with the frontend
+        Service backendServer = Service.ignite();
         try {
-            port(8888);
-            webSocketIdleTimeoutMillis(0);
-            webSocket("/s-mock", WebSocketServerListener.class);
-            init();
+            backendServer.port(8888);
+            backendServer.webSocketIdleTimeoutMillis(0);
+            backendServer.webSocket("/s-mock", WebSocketServerListener.class);
+            backendServer.init();
             log.info("Started the backend server on port 8888.");
         } catch (Exception ex) {
             log.error(ex);
