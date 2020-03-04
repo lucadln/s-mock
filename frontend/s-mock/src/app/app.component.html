@@ -1,7 +1,11 @@
 <div id="app-content">
   <div id="action-bar">
     <label>Port:</label>
-    <input id="port" [(ngModel)]="project.port"/>
+    <input id="port" class="action-bar-input" [(ngModel)]="project.port"
+    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+    <label>Path:</label>
+    <input id="path" class="action-bar-input" [(ngModel)]="project.path"
+    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
     <button id="start-mock" (click)="startMock()">
       <img id="start-mock-icon" src="assets/start.svg" />
       <p>Start mock</p>
@@ -64,7 +68,9 @@
       </div>
     </div>
     <div id="log-view">
-
+      <div id="log-view-content">
+        
+      </div>
     </div>
   </div>
   <div id="bottom-bar">

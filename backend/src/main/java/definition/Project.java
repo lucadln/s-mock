@@ -3,6 +3,7 @@ package definition;
 public class Project {
     private String name;
     private int port;
+    private String path;
     private Action[] actions;
 
     public String getName() {
@@ -27,5 +28,13 @@ public class Project {
 
     public void setActions(Action[] actions) {
         this.actions = actions;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

@@ -39,8 +39,8 @@ export class AppComponent {
           this.mockRunning = true;
           HTMLElementHandler.removeClassForElementWithId('stop-mock', 'disabled');
           HTMLElementHandler.addClassForElementWithId('start-mock', 'disabled');
-          // disable start button
-          // enable stop button
+
+          HTMLElementHandler.addParagraphToElementWithId('log-view-content', 'Mock started');
         }
       } else if (message.type == 'STOP_MOCK_RESPONSE') {
         if (message.content.success == true) {

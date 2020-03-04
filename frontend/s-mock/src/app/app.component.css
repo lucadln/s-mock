@@ -10,6 +10,30 @@
   width: 100%;
 }
 
+.action-bar-input {
+  border: none;
+  background-color: transparent;
+  border-radius: 4px;
+  height: 24px;
+  font-size: 14px;
+  font-style: italic;
+  padding: 0 12px;
+  width: 60px;
+  margin-right: 20px;
+  margin-left: 4px;
+  align-items: center;
+  outline: none;
+  transition: background-color 0.25s;
+}
+
+.action-bar-input:focus {
+  background-color: #efefef;
+}
+
+.action-bar-input:hover {
+  background-color: #efefef;
+}
+
 #action-bar button {
   background-color: transparent;
   border: none;
@@ -130,11 +154,23 @@ button > img {
 
 #log-view {
   height: 100%;
+  overflow: scroll;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+   box-sizing: border-box;
+   padding: 20px 28px;
+}
+
+#log-view-content p {
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
 }
 
 #navigator {
   border-right: 1px solid #a3a3a3;
   height: 100%;
+  overflow: hidden;
 }
 
 #new-mock-action-icon {
@@ -184,33 +220,10 @@ button > img {
   width: 140px;
 }
 
-#port {
-  border: none;
-  background-color: transparent;
-  border-radius: 4px;
-  height: 24px;
-  font-size: 14px;
-  font-style: italic;
-  padding: 0 12px;
-  width: 60px;
-  margin-right: 20px;
-  margin-left: 4px;
-  align-items: center;
-  outline: none;
-  transition: background-color 0.25s;
-}
-
-#port:hover {
-  background-color: #efefef;
-}
-
-#port:focus {
-  background-color: #efefef;
-}
-
 #project-content {
   display: grid;
   grid-template-columns: 50% 50%;
+  overflow: hidden;
 }
 
 #select-mock-action-type-view {

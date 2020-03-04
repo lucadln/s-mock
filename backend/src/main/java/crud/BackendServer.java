@@ -16,7 +16,7 @@ import utils.ProjectSerializer;
 
 @Log4j
 @WebSocket
-public class WebSocketServerListener {
+public class BackendServer {
 
     AppController appController = null;
 
@@ -61,14 +61,20 @@ public class WebSocketServerListener {
 
             log.debug("Project content successfully sent to the frontend!");
         } else if (message.startsWith("START_MOCK")) {
-            String projectJson = message.substring(11);
             log.info("Received instructions to start a mock service...");
 
             if (appController == null) {
                 appController = new AppController();
             }
+
+            // The message contains the project json
+            String projectJson = message.substring(11);
             Project project = ProjectSerializer.convertStringToProject(projectJson);
+
+            // Start mock
             boolean mockStarted = appController.startMock(project);
+
+            // Inform the frontend whether the mock started or not
             Message responseMessage;
             if (mockStarted) {
                 responseMessage = new Message("START_MOCK_RESPONSE", "{\"success\":true}");

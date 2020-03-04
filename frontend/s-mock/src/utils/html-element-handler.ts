@@ -5,8 +5,14 @@ export class HTMLElementHandler {
   }
 
   static removeClassForElementWithId(id: string, className: string) {
-    console.log('Received command to remove class ' + className + ' from element with id: ' + id);
     let el: HTMLElement = document.getElementById(id);
     el.classList.remove(className);
+  }
+
+  static addParagraphToElementWithId(id: string, paragraphText: string) {
+    let para = document.createElement("p");
+    let node = document.createTextNode(paragraphText);
+    para.appendChild(node);
+    document.getElementById(id).appendChild(para);
   }
 }

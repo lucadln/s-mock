@@ -1,6 +1,6 @@
 package execution;
 
-import crud.WebSocketServerListener;
+import crud.BackendServer;
 import definition.Project;
 import lombok.extern.log4j.Log4j;
 import spark.Service;
@@ -64,7 +64,7 @@ public class AppController {
         try {
             mockServer.port(project.getPort());
             mockServer.webSocketIdleTimeoutMillis(0);
-            mockServer.webSocket("/s-mock", WebSocketServerListener.class);
+            mockServer.webSocket("/s-mock", BackendServer.class);
             mockServer.init();
             log.info("Started the websocket mock on port " + project.getPort() + ".");
 
